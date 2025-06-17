@@ -123,6 +123,12 @@ button:hover {
   color: #2e2f42;
 }
 
+.load-btn {
+  width: 125px;
+  display: block;
+  margin: 20px auto;
+}
+
 .loader {
   display: none;
   position: relative;

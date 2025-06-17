@@ -3,6 +3,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 const galleryList = document.querySelector(".gallery");
 const loader = document.querySelector(".loader");
+const loadBtn = document.querySelector(".load-btn");
 const lightbox = new SimpleLightbox(".gallery a", {
     captionDelay: 250,
     captionPosition: "bottom",
@@ -42,4 +43,12 @@ export function showLoader() {
 
 export function hideLoader() {
     loader.style.display = 'none';
+}
+
+export function showLoadMoreButton(){
+    loadBtn.style.display = "block";
+}
+
+export function hideLoadMoreButton() {
+    loadBtn.style.display = 'none';
 }
