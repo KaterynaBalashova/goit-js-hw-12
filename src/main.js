@@ -12,6 +12,7 @@ formEl.addEventListener("submit", handleSubmit);
 loadBtn.addEventListener("click", handleClick);
 
 hideLoadMoreButton();
+
 let currentPage = 1;
 let currentQuery = "";
 let totalPages;
@@ -34,32 +35,37 @@ async function handleSubmit(event) {
     };
 
     clearGallery();
+    hideLoadMoreButton();
     showLoader();
 
     try {
         const data = await getImagesByQuery(currentQuery, currentPage);
-        if (data.hits.length > 0) {
-            createGallery(data.hits);
-            inputEl.value = "";
-            totalPages = Math.ceil(data.totalHits / perPage);
-            showLoadMoreButton();
-            if (currentPage > totalPages) {
-                hideLoadMoreButton();
-            }
-        } else {
-            hideLoadMoreButton();
+
+        if (data.hits.length === 0) {
             iziToast.error({
                 title: "Error",
                 message: "Sorry, there are no images matching your search query. Please try again!",
                 position: "topRight",
             });
+            return;
         };
+
+        createGallery(data.hits);
+        inputEl.value = "";
+
+        totalPages = Math.ceil(data.totalHits / perPage);
+        if (currentPage < totalPages) {
+            showLoadMoreButton();
+        };
+
     } catch (error) {
+
         iziToast.error({
             title: "Error",
             message: "Something went wrong. Please, try again!",
             position: "topRight",
         });
+
     } finally {
         hideLoader()
     };
@@ -70,10 +76,11 @@ async function handleClick() {
     
     try {
         const data = await getImagesByQuery(currentQuery, currentPage);
-        totalPages = Math.ceil(data.totalHits / perPage);
         createGallery(data.hits);
+
         if (currentPage >= totalPages) {
             hideLoadMoreButton();
+
             iziToast.info({
                 title: "Info",
                 message: "We're sorry, but you've reached the end of search results.",
@@ -83,6 +90,7 @@ async function handleClick() {
 
         const imgCard = document.querySelector(".gallery-item");
         const imgCardHeight = imgCard.getBoundingClientRect().height;
+
         window.scrollBy({
             top: imgCardHeight * 2,
             behavior: "smooth",
@@ -94,5 +102,5 @@ async function handleClick() {
             message: "Something went wrong. Please, try again!",
             position: "topRight",
         });
-    }
-}
+    };
+};
