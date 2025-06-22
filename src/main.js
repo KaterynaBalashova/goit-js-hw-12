@@ -37,13 +37,11 @@ async function handleSubmit(event) {
     showLoader();
 
     try {
-        const data = await getImagesByQuery(currentQuery, currentPage)
-        console.log(data);
+        const data = await getImagesByQuery(currentQuery, currentPage);
         if (data.hits.length > 0) {
             createGallery(data.hits);
             inputEl.value = "";
             totalPages = Math.ceil(data.totalHits / perPage);
-            console.log(totalPages);
             showLoadMoreButton();
             if (currentPage > totalPages) {
                 hideLoadMoreButton();
