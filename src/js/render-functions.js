@@ -29,7 +29,7 @@ export function createGallery(images) {
         </li>
         `).join("");
     
-        galleryList.innerHTML = markUp;
+        galleryList.insertAdjacentHTML("beforeend", markUp);
         lightbox.refresh();
 };
 
